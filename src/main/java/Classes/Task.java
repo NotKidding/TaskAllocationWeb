@@ -8,8 +8,6 @@ package Classes;
  *
  * @author HP
  */
-
-//This represent tasks
 public class Task {
     private String name;
     private int priority;
