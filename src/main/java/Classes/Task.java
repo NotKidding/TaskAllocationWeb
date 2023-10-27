@@ -14,9 +14,37 @@ public class Task {
     private int requiredSkill;
     
     public Task(String name, int priority, int requiredSkill){
-    this.name = name;
-    this.priority = priority;
-    this.requiredSkill = requiredSkill;
+        this.name = name;
+        this.priority = priority;
+        this.requiredSkill = requiredSkill;
     }
-    //Create getters and setters for these properties
+    //Getters
+    public String getName(){
+        return name;
+    }
+    public int getPriority(){
+        return priority;
+    }
+    public int getRequiredSkill(){
+        return requiredSkill;
+    }
+    
+    //Setters
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setPriority(int priority){
+        this.priority = priority;
+    }
+    public void setRequiredSkill(int requiredSkill){
+        this.requiredSkill = requiredSkill;
+    }
+    @Override
+    public String toString(){
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", priority=" + priority +
+                "requiredSkill=" + requiredSkill +
+                '}';
+    }
 }
