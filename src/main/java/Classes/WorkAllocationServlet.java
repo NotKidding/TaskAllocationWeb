@@ -30,22 +30,46 @@ public class WorkAllocationServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //Handle task allocation here
+        
+        //For example, let's create some sample tasks and team members
+        List<Task> task = SampleData.createSampleTasks();
+        List<TeamMember> teamMembers = SampleData.createSampleTeamMembers();
+        
+        //you can implement your dynamic work allocation algorithm here
+        
+        //for now, let's assign task to team memnbers as an example
+        assignTaskToTeamMembers(tasks, teamMembers);
+        
+        //Prepare the response content
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet WorkAllocationServlet</title>");            
+            out.println("<title>Task Allocation</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet WorkAllocationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Task Allocation Result</h1>");
+            
+            //Display the allocation task
+            out.println("<table>");
+            out.println("<tr><th>Task Name</th><th>Assigned To</th><th>Priority</th></tr>");
+            for(Task task : task){
+                out.println("<tr>");
+                out.println("<td>" + task.getName() + "</td>");
+                out.println("<td>" + task.getAssignedTo() + "</td>");
+                out.println("<td>" + task.getPriority() + "</td>");
+                out.println("</tr>");
+            }
+            out.println("</table>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+   
+   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -81,7 +105,25 @@ public class WorkAllocationServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        return "Task Allocation Srevlet";
+    }
+    
+    //Custom method to assign task to team members (for example)
+    private void assignTaskstoTeamMembers(List<Task> task, list<TeamMember> teamMembers){
+        //Assign tasks to team members based on your dynamic allocation algorith
+        
+        int currentMemberIndex = 0;
+        
+        for(Task task : task){
+            if (currentMemberIndex >= teamMembers.size()){
+                //If we run out of team members, loop bsck to the front member
+                currentMemberIndex = 0;
+            }
+            TeamMember assignedMember = teamMembers.get(currentMemberIndex);
+            task.setAssignedTo(assignedMember.getName());
+            assignedMember.addWork(1);//increment workload (for demonstartion)
+            currentMemberIndex++;
+        }
+    }
 
 }
