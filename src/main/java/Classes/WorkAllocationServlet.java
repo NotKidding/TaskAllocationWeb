@@ -4,8 +4,13 @@
  */
 package Classes;
 
+import Classes.SampleData;
+import Classes.Task;
+import Classes.TeamMember;
+import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,13 +38,13 @@ public class WorkAllocationServlet extends HttpServlet {
         //Handle task allocation here
         
         //For example, let's create some sample tasks and team members
-        List<Task> task = SampleData.createSampleTasks();
+        List<Task> tasks = SampleData.createSampleTasks();
         List<TeamMember> teamMembers = SampleData.createSampleTeamMembers();
         
         //you can implement your dynamic work allocation algorithm here
         
         //for now, let's assign task to team memnbers as an example
-        assignTaskToTeamMembers(tasks, teamMembers);
+        assignTasksToTeamMembers(tasks, teamMembers);
         
         //Prepare the response content
         response.setContentType("text/html;charset=UTF-8");
@@ -56,11 +61,11 @@ public class WorkAllocationServlet extends HttpServlet {
             //Display the allocation task
             out.println("<table>");
             out.println("<tr><th>Task Name</th><th>Assigned To</th><th>Priority</th></tr>");
-            for(Task task : task){
+            for (Task currentTask : tasks){
                 out.println("<tr>");
-                out.println("<td>" + task.getName() + "</td>");
-                out.println("<td>" + task.getAssignedTo() + "</td>");
-                out.println("<td>" + task.getPriority() + "</td>");
+                out.println("<td>" + currentTask.getName() + "</td>");
+                out.println("<td>" + currentTask.getAssignedTo() + "</td>");
+                out.println("<td>" + currentTask.getPriority() + "</td>");
                 out.println("</tr>");
             }
             out.println("</table>");
@@ -109,12 +114,16 @@ public class WorkAllocationServlet extends HttpServlet {
     }
     
     //Custom method to assign task to team members (for example)
-    private void assignTaskstoTeamMembers(List<Task> task, list<TeamMember> teamMembers){
+    private void assignTasksToTeamMembers(List<Task> tasks, List<TeamMember> teamMembers){
         //Assign tasks to team members based on your dynamic allocation algorith
+        if (tasks == null || teamMembers == null || tasks.isEmpty() || teamMembers.isEmpty()){
+        //Handle invalid input
         
+        return;
+        }
         int currentMemberIndex = 0;
         
-        for(Task task : task){
+        for(Task task : tasks){
             if (currentMemberIndex >= teamMembers.size()){
                 //If we run out of team members, loop bsck to the front member
                 currentMemberIndex = 0;

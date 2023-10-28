@@ -16,10 +16,17 @@
         <table>
             <tr>
                 <th>Task Name</th>
-                <th>Assigned</th>
+                <th>Assigned To</th>
                 <th>Priority</th>
             </tr>
             <!-- Loop through the allocated tasks and display them here -->
+            <c:forEach var="task" items="${allocatedTasks}">
+                <tr>
+                    <td>${task.name}</td>
+                    <td>${task.assignedTo}</td>
+                    <td>${task.priority}</td>
+                </tr>
+            </c:forEach>
         </table>
     </body>
 </html>

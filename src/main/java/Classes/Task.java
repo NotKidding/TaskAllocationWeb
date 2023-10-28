@@ -12,6 +12,7 @@ public class Task {
     private String name;
     private int priority;
     private int requiredSkill;
+    private String assignedTo;
     
     public Task(String name, int priority, int requiredSkill){
         this.name = name;
@@ -28,6 +29,9 @@ public class Task {
     public int getRequiredSkill(){
         return requiredSkill;
     }
+    public String getAssignedTo(){
+        return assignedTo;
+    }
     
     //Setters
     public void setName(String name){
@@ -39,6 +43,10 @@ public class Task {
     public void setRequiredSkill(int requiredSkill){
         this.requiredSkill = requiredSkill;
     }
+    public void setAssignedTo(String assignedTo){
+        this.assignedTo = assignedTo;
+    }
+    
     @Override
     public String toString(){
         return "Task{" +
