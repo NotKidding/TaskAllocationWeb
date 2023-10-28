@@ -12,16 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SampleData {
-    public static List<Task> createSampleTasks(){
+    private static List<Task> tasks = new ArrayList<>();
+   // public static List<Task> createSampleTasks(){
         //Create sample task here
-        List<Task> tasks = new ArrayList<>();
+        //List<Task> tasks = new ArrayList<>();
         //Add tasks to the 'tasks' list
-        return tasks;
-    }
+      //  return tasks;
+   // }
     public static List<TeamMember> createSampleTeamMembers(){
         //Create sample team members here
         List<TeamMember> teamMembers = new ArrayList<>();
         //Add team members to the 'teamMembers' list
         return teamMembers;
+    }
+
+
+    public static List<Task> createSampleTasks(){
+        return tasks;
+    }
+    public static void addTask(Task task){
+    tasks.add(task);
     }
 }

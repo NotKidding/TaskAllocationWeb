@@ -100,7 +100,28 @@ public class WorkAllocationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String taskName = request.getParameter("taskName");
+        int priority = Integer.parseInt(request.getParameter("priority"));
+        int requiredSkill = Integer.parseInt(request.getParameter("requiredSkill"));
+        
+        //Create a new task with the form data
+        Task newTask = new Task(taskName, priority, requiredSkill);
+        
+        //Add the new task to your list of tasks
+        SampleData.addTask(newTask);
+        // Task newTask = new Task(taskName, priority, requiredSkill);
+        
+        // List<Task> tasks = SampleData.createSampleTasks();
+        //tasks.add(newTask);
+        
+        List<Task> tasks = SampleData.createSampleTasks();
+        System.out.println("Number of tasks: "+ tasks.size());
+        
+       
+        //redirect back to the allocation.jsp page
+        response.sendRedirect("allocation.jsp");
+        request.setAttribute("allocatedTasks", tasks);
+        //processRequest(request, response);
     }
 
     /**

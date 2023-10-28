@@ -1,10 +1,80 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Task Management</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--no need of this, i guess-->
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1><strong>Task Management</strong></h1>
+        
+        
+
+            <h2>Create Task</h2>
+            <form id="task-form">
+                <label for="name">Task Name:</label>
+                <input type="text" id="name" required><br>
+                <label for="priority">Priority:</label>
+                <input type="number" id="priority" required><br>
+                <label for="requiredSkill">Required Skill:</label>
+                <input type="text" id="requiredSkill" required><br>
+                <button type="button" onclick="createTask()">Create Task</button>
+            </form>
+        
+        
+            <h2>Task List</h2>
+            <ul id="task-list">
+                <!-- Task will be dynamically added here-->
+            </ul>
+            
+        
+        <script>
+            const taskList = [];
+            const taskForm = document.getElementById("task-form");
+            const nameInput = document.getElementById("name");
+            const priorityInput = document.getElementById("priority");
+            const requiredSkillInput = document.getElementById("requiredSkill");
+            const taskListElement = document.getElementById("task-list");
+            
+            function createTask(){
+                const name = nameInput.value;
+                const priority = parseInt(priorityInput.value);
+                const requiredSkill = requiredSkillInput.value;
+                
+                if (name && !isNaN(priority) && requiredSkill){
+                    const task =new Task(name, priority, requiredSkill);
+                    taskList.push(task);
+                    //Clear form fields
+                    nameInput.value = "";
+                    priorityInput.value = "";
+                    requiredSkillInput.value = "";
+                    //Display the tasks after creating
+                    displayTasks();
+                }
+            }
+            
+            function displayTasks() {
+                taskListElement.innerHTML = "";
+                taskList.forEach((task, index) => {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `<strong>${task.getName()}</strong> (Priority: ${task.getPriority()}, Skill: ${task.getRequiredSkill()})`;
+                    taskListElement.appendChild(listItem);
+                });
+            }
+            function Task(name, priority, requiredSkill){
+                this.name = name;
+                this.priority = priority;
+                this.requiredSkill = requiredSkill;
+                this.getPriority = function() {
+                    return this.priority;
+                };
+                this.getRequiredSkill = function() {
+                    return this.requiredSkill;
+                };
+                this.getName =function() {
+                    return this.name;
+                };
+            }
+
+        </script>
     </body>
 </html>
