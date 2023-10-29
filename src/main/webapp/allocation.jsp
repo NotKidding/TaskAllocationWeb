@@ -13,13 +13,6 @@
     </head>
     <body>
         <h1>Allocated Tasks</h1>
-        <h2>Add a New Task</h2>
-                <form action="WorkAllocationServlet" method="post">
-                    Task Name: <input type="text" name="taskName"><br>
-                    Priority: <input type="number" name="priority"><br>
-                    Required Skill: <input type="number" name="requiredSkill"><br>
-                    <input type="submit" value="Add Task">
-                </form>
         <table>
             <tr>
                 <th>Task Name</th>

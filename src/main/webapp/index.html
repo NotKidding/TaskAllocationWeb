@@ -1,80 +1,91 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Task Management</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--no need of this, i guess-->
-    </head>
-    <body>
-        <h1><strong>Task Management</strong></h1>
-        
-        
+<html lang="en">
 
-            <h2>Create Task</h2>
-            <form id="task-form">
-                <label for="name">Task Name:</label>
-                <input type="text" id="name" required><br>
-                <label for="priority">Priority:</label>
-                <input type="number" id="priority" required><br>
-                <label for="requiredSkill">Required Skill:</label>
-                <input type="text" id="requiredSkill" required><br>
-                <button type="button" onclick="createTask()">Create Task</button>
-            </form>
-        
-        
-            <h2>Task List</h2>
-            <ul id="task-list">
-                <!-- Task will be dynamically added here-->
-            </ul>
-            
-        
-        <script>
-            const taskList = [];
-            const taskForm = document.getElementById("task-form");
-            const nameInput = document.getElementById("name");
-            const priorityInput = document.getElementById("priority");
-            const requiredSkillInput = document.getElementById("requiredSkill");
-            const taskListElement = document.getElementById("task-list");
-            
-            function createTask(){
-                const name = nameInput.value;
-                const priority = parseInt(priorityInput.value);
-                const requiredSkill = requiredSkillInput.value;
-                
-                if (name && !isNaN(priority) && requiredSkill){
-                    const task =new Task(name, priority, requiredSkill);
-                    taskList.push(task);
-                    //Clear form fields
-                    nameInput.value = "";
-                    priorityInput.value = "";
-                    requiredSkillInput.value = "";
-                    //Display the tasks after creating
-                    displayTasks();
-                }
-            }
-            
-            function displayTasks() {
-                taskListElement.innerHTML = "";
-                taskList.forEach((task, index) => {
-                    const listItem = document.createElement("li");
-                    listItem.innerHTML = `<strong>${task.getName()}</strong> (Priority: ${task.getPriority()}, Skill: ${task.getRequiredSkill()})`;
-                    taskListElement.appendChild(listItem);
-                });
-            }
-            function Task(name, priority, requiredSkill){
-                this.name = name;
-                this.priority = priority;
-                this.requiredSkill = requiredSkill;
-                this.getPriority = function() {
-                    return this.priority;
-                };
-                this.getRequiredSkill = function() {
-                    return this.requiredSkill;
-                };
-                this.getName =function() {
-                    return this.name;
-                };
-            }
+<head>
+  <title>Task Allocation</title>
+  <style>
+    /* Initially hide dropdownmenu2 and dropdownmenu3 */
+    #development, #designanduserexperience, #specializeddevelopment {
+      display: none;
+    }
+    /* Style for the containers to align dropdowns horizontally */
+    .container {
+      display: flex;
+      align-items: center;
+    }
+    .container select {
+      margin-right: 10px; /* Add spacing between dropdowns */
+    }
+  </style>
+</head>
 
-        </script>
-    </body>
+<body>
+  <h1>Task Allocation</h1>
+  <h2>
+      Project Name:<input type="text" name="projectName" spellcheck required>
+  </h2>
+  <div class="container">
+  <input type="text" name="memberName" placeholder="Member Name" required>
+ 
+    <label for="role"></label>
+    <select id="role" name="Role">
+        <option value="" selected disabled>-role-</option>
+        <option value="Development">Development</option>
+        <option value="Design and User Experience">Design and User Experience</option>
+        <option value="Specialized development">Specialized development</option>
+    </select>
+  
+  
+    <label for="development"></label>
+    <select id="development" name="Development">
+        <option value="" selected disabled>-choose-</option>
+        <option value="frontenddeveloper">Front-End Developer</option>
+        <option value="backenddeveloper">Back-End Developer</option>
+        <option value="mobilewebdeveloper">Mobile Web Developer</option>
+        <option value="javascriptdeveloper">JavaScript Developer</option>
+    </select>
+    <label for="designanduserexperience"></label>
+    <select id="designanduserexperience" name="DesignAndUserexperience">
+        <option value="" selected disabled>-choose-</option>
+        <option value="uiuxdesigner">UI/UX Designer</option>
+    </select>
+  
+
+      <label for="specializeddevelopment"></label>
+    <select id="specializeddevelopment" name="SpecializedDevelopment">
+        <option value="" selected disabled>-choose-</option>
+        <option value="webaccessibilitydeveloper">Web Accessibility Developer</option>
+        <option value="websecuritydeveloper">Web Security Developer</option>
+        <option value="webperformancedeveloper">Web Performance Developer</option>
+        <option value="webapideveloper">Web API Developer</option>
+    </select>
+  </div>
+
+  <script>
+    // JavaScript to control the visibility of dropdownmenu2 and dropdownmenu3
+    document.getElementById("role").addEventListener("change", function () {
+      var development = document.getElementById("development");
+      var designanduserexperience = document.getElementById("designanduserexperience");
+      var specializeddevelopment = document.getElementById("specializeddevelopment");
+      if (this.value === "Development") {
+        development.style.display = "block";
+        designanduserexperience.style.display = "none";
+        specializeddevelopment.style.display = "none";
+      } else if (this.value === "Design and User Experience") {
+        development.style.display = "none";
+        designanduserexperience.style.display = "block";
+        specializeddevelopment.style.display = "none";
+      } else if (this.value === "Specialized development") {
+        development.style.display = "none";
+        designanduserexperience.style.display = "none";
+        specializeddevelopment.style.display = "block";
+      } else {
+        development.style.display = "none";
+        designanduserexperience.style.display = "none";
+        specializeddevelopment.style.display = "none";
+      }
+    });
+  </script>
+</body>
+
 </html>
