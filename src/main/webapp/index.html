@@ -24,7 +24,10 @@
   <h2>
       Project Name:<input type="text" name="projectName" spellcheck required>
   </h2>
+  <button id="addMemberButton">Add Member</button>
+  <div id="membersContainer">
   <div class="container">
+     
   <input type="text" name="memberName" placeholder="Member Name" required>
  
     <label for="role"></label>
@@ -59,9 +62,30 @@
         <option value="webperformancedeveloper">Web Performance Developer</option>
         <option value="webapideveloper">Web API Developer</option>
     </select>
+  
+  </div>  
   </div>
 
   <script>
+      document.getElementById("addMemberButton").addEventListener("click", function () {
+      // Clone the container without content
+      var container = document.querySelector('.container');
+      var newContainer = container.cloneNode(true);
+
+      // Append the cloned container
+      var inputElements = newContainer.querySelectorAll("input");
+      for (var i = 0; i< inputElements.length; i++){
+          inputElements[i].value = '';
+      }
+      
+      var selectElements = newContainer.querySelectorAll('select');
+      for (var i = 0; i< selectElements.length; i++){
+          selectElements[i].selectedIndex = 0;
+      }
+      var membersContainer = document.getElementById("membersContainer");
+        membersContainer.appendChild(newContainer);
+    });
+    
     // JavaScript to control the visibility of dropdownmenu2 and dropdownmenu3
     document.getElementById("role").addEventListener("change", function () {
       var development = document.getElementById("development");
@@ -85,6 +109,8 @@
         specializeddevelopment.style.display = "none";
       }
     });
+    
+   
   </script>
 </body>
 
