@@ -16,6 +16,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+
 
 /**
  *
@@ -33,127 +37,45 @@ public class WorkAllocationServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //Handle task allocation here
-        
-        //For example, let's create some sample tasks and team members
-        List<Task> tasks = SampleData.createSampleTasks();
-        List<TeamMember> teamMembers = SampleData.createSampleTeamMembers();
-        
-        //you can implement your dynamic work allocation algorithm here
-        
-        //for now, let's assign task to team memnbers as an example
-        assignTasksToTeamMembers(tasks, teamMembers);
-        
-        //Prepare the response content
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Task Allocation</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Task Allocation Result</h1>");
-            
-            //Display the allocation task
-            out.println("<table>");
-            out.println("<tr><th>Task Name</th><th>Assigned To</th><th>Priority</th></tr>");
-            for (Task currentTask : tasks){
-                out.println("<tr>");
-                out.println("<td>" + currentTask.getName() + "</td>");
-                out.println("<td>" + currentTask.getAssignedTo() + "</td>");
-                out.println("<td>" + currentTask.getPriority() + "</td>");
-                out.println("</tr>");
-            }
-            out.println("</table>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-   
-   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve the form data
+        Enumeration<String> parameterNames = request.getParameterNames();
+        ArrayList<String> memberNames = new ArrayList<>();
+        ArrayList<String> memberRoles = new ArrayList<>();
+        ArrayList<String> memberSkills = new ArrayList<>();
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String taskName = request.getParameter("taskName");
-        int priority = Integer.parseInt(request.getParameter("priority"));
-        int requiredSkill = Integer.parseInt(request.getParameter("requiredSkill"));
-        
-        //Create a new task with the form data
-        Task newTask = new Task(taskName, priority, requiredSkill);
-        
-        //Add the new task to your list of tasks
-        SampleData.addTask(newTask);
-        // Task newTask = new Task(taskName, priority, requiredSkill);
-        
-        // List<Task> tasks = SampleData.createSampleTasks();
-        //tasks.add(newTask);
-        
-        List<Task> tasks = SampleData.createSampleTasks();
-        System.out.println("Number of tasks: "+ tasks.size());
-        
-       
-        //redirect back to the allocation.jsp page
+        while (parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+            if (paramName.startsWith("memberName")) {
+                memberNames.add(request.getParameter(paramName));
+            } else if (paramName.startsWith("role")) {
+                memberRoles.add(request.getParameter(paramName));
+            } else if (paramName.startsWith("skill")) {
+                memberSkills.add(request.getParameter(paramName));
+            }
+        }
+
+        // Simulate task allocation (random allocation)
+        ArrayList<String> tasks = new ArrayList<>();
+        tasks.add("Task A");
+        tasks.add("Task B");
+        tasks.add("Task C");
+
+        Collections.shuffle(tasks);
+
+        // Allocate tasks randomly to team members
+        int totalMembers = memberNames.size();
+        for (int i = 0; i < tasks.size(); i++) {
+            String task = tasks.get(i);
+            String member = memberNames.get(i % totalMembers);
+            // Here, ideally, you would assign the task to the specific member in your real algorithm
+            System.out.println("Task '" + task + "' assigned to " + member);
+        }
+
+        // You can add further logic to handle this task allocation in a more sophisticated manner.
+        // For example, considering skillsets or workload.
+
+        // Redirect back to the form or any other page
         response.sendRedirect("allocation.jsp");
-        request.setAttribute("allocatedTasks", tasks);
-        //processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Task Allocation Srevlet";
-    }
-    
-    //Custom method to assign task to team members (for example)
-    private void assignTasksToTeamMembers(List<Task> tasks, List<TeamMember> teamMembers){
-        //Assign tasks to team members based on your dynamic allocation algorith
-        if (tasks == null || teamMembers == null || tasks.isEmpty() || teamMembers.isEmpty()){
-        //Handle invalid input
-        
-        return;
-        }
-        int currentMemberIndex = 0;
-        
-        for(Task task : tasks){
-            if (currentMemberIndex >= teamMembers.size()){
-                //If we run out of team members, loop bsck to the front member
-                currentMemberIndex = 0;
-            }
-            TeamMember assignedMember = teamMembers.get(currentMemberIndex);
-            task.setAssignedTo(assignedMember.getName());
-            assignedMember.addWork(1);//increment workload (for demonstartion)
-            currentMemberIndex++;
-        }
-    }
-
 }
